@@ -37,7 +37,7 @@ const ContactPageManagement: React.FC = () => {
       setLoading(true);
       const data = await ContentRepository.getContactPageContent();
       setContactSection(data.section);
-      setContactItems(data.items);
+      setContactItems(data.items || []);
     } catch (error) {
       console.error("Failed to load contact page content:", error);
       setErrorMessage("Failed to load contact page content");

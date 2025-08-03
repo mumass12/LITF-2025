@@ -483,23 +483,44 @@ export class InitialSeeder {
       // Create Footer Section
       const footerSection = await queryRunner.manager.save(ContentSection, {
         section_key: "footer",
-        title: "Footer Information",
-        content: "Footer content and links for the website",
+        title: "Footer",
+        content: "The Lagos International Trade Fair is Nigeria's premier platform for trade, innovation, and business networking, held annually in Lagos.",
         metadata: {
-          copyright_text:
-            "© 2025 Lagos Chamber of Commerce and Industry. All rights reserved.",
-          address:
-            "Plot 1, Idowu Taylor Street, Victoria Island, Lagos, Nigeria",
-          phone: "+234 1 2701813",
-          email: "info@lagoschamber.com",
+          copyright_text: `© ${new Date().getFullYear()} Lagos International Trade Fair. All rights reserved.`,
+          address: "1, Idowu Taylor Street, Victoria Island, Lagos",
+          phone: "+234 700 524 6724",
+          email: "litf@lagoschamber.com",
           social_links: {
-            facebook: "https://facebook.com/lagoschamber",
-            twitter: "https://twitter.com/lagoschamber",
-            linkedin: "https://linkedin.com/company/lagoschamber",
-            instagram: "https://instagram.com/lagoschamber",
-          },
+            facebook: "https://www.facebook.com/lagoschamber",
+            twitter: "https://www.x.com/lagoschamber88",
+            linkedin: "https://www.linkedin.com/company/lagoschamber",
+            instagram: "https://www.instagram.com/lagos_tradefair"
+          }
         },
         display_order: 10,
+      });
+
+      console.log("Creating contact-page section...");
+      // Create Contact Page Section
+      const contactPageSection = await queryRunner.manager.save(ContentSection, {
+        section_key: "contact-page",
+        title: "Contact Us",
+        content: "We're here to help you connect, exhibit, and grow at the Lagos International Trade Fair.",
+        metadata: {
+          main_office: {
+            address: "The Director, Trade Promotion\nLagos Chamber of Commerce and Industry\n1st Floor, Commerce House\n1, Idowu Taylor Street, Victoria Island, Lagos.",
+            phone: "0700LAGOSCHAMBER (07005246724)",
+            email: "litf@lagoschamber.com",
+            working_hours: "Monday - Friday: 8:00 AM - 5:00 PM"
+          },
+          support_office: {
+            address: "Support Office\nLagos Chamber of Commerce and Industry\n2nd Floor, Commerce House\n1, Idowu Taylor Street, Victoria Island, Lagos.",
+            phone: "+234 1 2701814",
+            email: "support@lagoschamber.com",
+            working_hours: "Monday - Friday: 9:00 AM - 4:00 PM"
+          }
+        },
+        display_order: 12,
       });
 
       console.log("Creating about-page section...");
@@ -518,33 +539,6 @@ export class InitialSeeder {
         },
         display_order: 11,
       });
-
-      console.log("Creating contact-page section...");
-      // Create Contact Page Section
-      const contactPageSection = await queryRunner.manager.save(
-        ContentSection,
-        {
-          section_key: "contact-page",
-          title: "Contact Us Page",
-          content: "Contact information and office details",
-          metadata: {
-            main_office: {
-              address:
-                "Plot 1, Idowu Taylor Street, Victoria Island, Lagos, Nigeria",
-              phone: "+234 1 2701813",
-              email: "info@lagoschamber.com",
-              working_hours: "Monday - Friday: 8:00 AM - 5:00 PM",
-            },
-            support_office: {
-              address: "Tafawa Balewa Square, Lagos Island, Lagos, Nigeria",
-              phone: "+234 1 2701814",
-              email: "support@lagoschamber.com",
-              working_hours: "Monday - Friday: 9:00 AM - 4:00 PM",
-            },
-          },
-          display_order: 12,
-        }
-      );
 
       console.log("Creating FAQs...");
       // Create FAQs

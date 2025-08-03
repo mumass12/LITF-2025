@@ -356,4 +356,52 @@ export class ContentRepository {
       method: "DELETE",
     });
   }
+
+  static async getContactPageContent() {
+    const response = await fetch(`${API_BASE_URL}/content/contact-page`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.data;
+  }
+
+  static async getFooterContent() {
+    const response = await fetch(`${API_BASE_URL}/content/footer`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.data;
+  }
+
+  static async getAboutPageContent() {
+    const response = await fetch(`${API_BASE_URL}/content/about-page`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.data;
+  }
 }

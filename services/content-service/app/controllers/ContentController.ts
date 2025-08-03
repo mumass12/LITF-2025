@@ -77,6 +77,15 @@ export class ContentController {
         case "faqs":
           result = { faqs: await this.contentService.getAllFAQs() };
           break;
+        case "contact-page":
+          result = await this.contentService.getContactPageContent();
+          break;
+        case "footer":
+          result = await this.contentService.getFooterContent();
+          break;
+        case "about-page":
+          result = await this.contentService.getAboutPageContent();
+          break;
         default:
           const section =
             await this.contentService.getContentSectionByKey(section_key);

@@ -190,4 +190,40 @@ export class ContentService {
       items: eventsItems,
     };
   }
+
+  async getContactPageContent() {
+    const contactSection = await this.contentSectionRepo.findByKey("contact-page");
+    const contactItems = contactSection
+      ? await this.contentItemRepo.findBySectionId(contactSection.id)
+      : [];
+
+    return {
+      section: contactSection,
+      items: contactItems,
+    };
+  }
+
+  async getFooterContent() {
+    const footerSection = await this.contentSectionRepo.findByKey("footer");
+    const footerItems = footerSection
+      ? await this.contentItemRepo.findBySectionId(footerSection.id)
+      : [];
+
+    return {
+      section: footerSection,
+      items: footerItems,
+    };
+  }
+
+  async getAboutPageContent() {
+    const aboutSection = await this.contentSectionRepo.findByKey("about-page");
+    const aboutItems = aboutSection
+      ? await this.contentItemRepo.findBySectionId(aboutSection.id)
+      : [];
+
+    return {
+      section: aboutSection,
+      items: aboutItems,
+    };
+  }
 }

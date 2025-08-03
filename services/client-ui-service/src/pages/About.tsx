@@ -1,22 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import NavigationHeader from '@/components/navigation/NavigationHeader';
 import { useUser } from '@/context/UserContext';
 import { FaGlobeAfrica, FaHandshake, FaUsers, FaBullhorn } from 'react-icons/fa';
 import FooterSection from '@/components/layouts/FooterSection';
+import { ContentRepository } from '@/repository/ContentRepository';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
+
+interface AboutContent {
+    section: {
+        id: string;
+        title: string;
+        content: string;
+        metadata?: {
+            mission?: string;
+            vision?: string;
+            established?: string;
+            incorporated?: string;
+        };
+    } | null;
+    items: any[];
+}
 
 const About: React.FC = () => {
     const { user } = useUser();
+    const [aboutContent, setAboutContent] = useState<AboutContent>({ section: null, items: [] });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        loadAboutContent();
+    }, []);
+
+    const loadAboutContent = async () => {
+        try {
+            setLoading(true);
+            const data = await ContentRepository.getContentBySection('about-page');
+            setAboutContent(data);
+        } catch (error) {
+            console.error('Failed to load about content:', error);
+            // Fallback to default content if CMS fails
+            setAboutContent({ section: null, items: [] });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-primary-50 to-white">
             <NavigationHeader isAuthenticated={!!user} />
 
+            <LoadingOverlay isLoading={loading} message="Loading about information..." />
+
             {/* Hero Section */}
             <div className="relative w-full h-96 flex items-center justify-center bg-gradient-to-r from-green-900/90 to-green-700/80">
                 <div className="absolute inset-0 bg-[url('/images/background3.png')] bg-cover bg-center opacity-20" />
                 <div className="relative z-10 text-center text-white px-8 md:px-12">
-                    <h1 className="text-3xl md:text-5xl font-extrabold mb-2 drop-shadow-lg">The Lagos International Trade Fair</h1>
-                    <p className="text-lg md:text-2xl font-medium max-w-2xl mx-auto drop-shadow">Nigeria's Premier Platform for Trade, Innovation, and Business Networking</p>
+                    <h1 className="text-3xl md:text-5xl font-extrabold mb-2 drop-shadow-lg">
+                        {aboutContent.section?.title || "The Lagos International Trade Fair"}
+                    </h1>
+                    <p className="text-lg md:text-2xl font-medium max-w-2xl mx-auto drop-shadow">
+                        {aboutContent.section?.content || "Nigeria's Premier Platform for Trade, Innovation, and Business Networking"}
+                    </p>
                 </div>
             </div>
 
@@ -34,16 +77,20 @@ const About: React.FC = () => {
                     <div className="order-1 lg:order-2">
                         <h2 className="text-3xl font-bold text-green-800 mb-6">Lagos Chamber of Commerce and Industry</h2>
                         <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                            Founded in 1888, the Lagos Chamber of Commerce and Industry is the Premier Chamber of Commerce in Nigeria. 
-                            Incorporated in 1950 as a non-profit organization, LCCI promotes the interests of the business community in Lagos and across Nigeria.
+                            {aboutContent.section?.metadata?.mission || 
+                            "Founded in 1888, the Lagos Chamber of Commerce and Industry is the Premier Chamber of Commerce in Nigeria. Incorporated in 1950 as a non-profit organization, LCCI promotes the interests of the business community in Lagos and across Nigeria."}
                         </p>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="text-center p-4 bg-green-50 rounded-lg">
-                                <div className="text-2xl font-bold text-green-700">1888</div>
+                                <div className="text-2xl font-bold text-green-700">
+                                    {aboutContent.section?.metadata?.established || "1888"}
+                                </div>
                                 <div className="text-sm text-gray-600">Founded</div>
                             </div>
                             <div className="text-center p-4 bg-red-50 rounded-lg">
-                                <div className="text-2xl font-bold text-red-600">1950</div>
+                                <div className="text-2xl font-bold text-red-600">
+                                    {aboutContent.section?.metadata?.incorporated || "1950"}
+                                </div>
                                 <div className="text-sm text-gray-600">Incorporated</div>
                             </div>
                         </div>

@@ -98,6 +98,17 @@ export class ContentRepository {
     return response.success ? response.data : null;
   }
 
+  static async getContentBySection(sectionKey: string) {
+    const response = await fetch(`${ContentRepository.API_BASE_URL}/content/${sectionKey}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.data;
+  }
+
   static async getContentBySection(section_key: string): Promise<any> {
     const response = await ContentRepository.getInstance().request(
       `/public/section/${section_key}`
