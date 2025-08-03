@@ -1,0 +1,81 @@
+name: API Infrastructure
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+        description: "The environment to deploy to"
+      aws_region:
+        required: false
+        type: string
+        description: "The AWS region to deploy to"
+        default: "eu-west-1"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: ${{ inputs.environment }}
+      AWS_REGION: ${{ inputs.aws_region }}
+      VITE_SERVICE_BASE_URL: ${{ github.ref == 'refs/heads/main' && 'https://api.lagosinternationaltradefair.com' || 'https://devapi.lagosinternationaltradefair.com' }}
+      VITE_FRONTEND_URL: ${{ github.ref == 'refs/heads/main' && 'https://shop.lagosinternationaltradefair.com'      || 'https://dev.lagosinternationaltradefair.com' }}
+      VITE_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      working-directory: services/client-ui-service
+      run: |
+        echo $VITE_SERVICE_BASE_URL
+        npm install
+        
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Get CloudFrontDistributionId and FrontendBucketName
+      id: get_stack_exports
+      run: |
+        STAGE="${{ inputs.environment }}"
+
+        CLOUDFRONT_DISTRIBUTION_ID=$(aws cloudformation list-exports \
+          --query "Exports[?Name=='litf-${STAGE}-CloudFrontDistributionId'].Value" \
+          --output text)
+
+        FRONTEND_BUCKET_NAME=$(aws cloudformation list-exports \
+          --query "Exports[?Name=='litf-${STAGE}-FrontendBucketName'].Value" \
+          --output text) 
+
+        echo "cloudfront_distribution_id=$CLOUDFRONT_DISTRIBUTION_ID" >> $GITHUB_OUTPUT
+        echo "frontend_bucket_name=$FRONTEND_BUCKET_NAME" >> $GITHUB_OUTPUT
+
+    - name: Use Retrieved Values
+      run: |
+        echo "CloudFront Distribution ID: ${{ steps.get_stack_exports.outputs.cloudfront_distribution_id }}"
+        echo "Frontend Bucket Name: ${{ steps.get_stack_exports.outputs.frontend_bucket_name }}"
+
+    - name: Build Application
+      working-directory: services/client-ui-service
+      run: |
+        STAGE="${{ inputs.environment }}"
+        node build.js --stage=$STAGE
+
+    - name: Syncing files to S3 Bucket
+      working-directory: services/client-ui-service
+      run: aws s3 sync dist/ s3://${{ steps.get_stack_exports.outputs.frontend_bucket_name }} --delete
+
+    - name: Invalidating Cloudfront
+      working-directory: services/client-ui-service
+      run: aws cloudfront create-invalidation --distribution-id "${{ steps.get_stack_exports.outputs.cloudfront_distribution_id }}" --paths "/*"
+   
