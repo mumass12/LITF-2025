@@ -77,10 +77,33 @@ const About: React.FC = () => {
                     </div>
                     <div className="order-1 lg:order-2">
                         <h2 className="text-3xl font-bold text-green-800 mb-6">Lagos Chamber of Commerce and Industry</h2>
-                        <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                            {aboutContent.section?.metadata?.mission || 
-                            "Founded in 1888, the Lagos Chamber of Commerce and Industry is the Premier Chamber of Commerce in Nigeria. Incorporated in 1950 as a non-profit organization, LCCI promotes the interests of the business community in Lagos and across Nigeria."}
-                        </p>
+                        
+                        {/* Mission Statement */}
+                        {aboutContent.section?.metadata?.mission && (
+                            <div className="mb-6">
+                                <h3 className="text-xl font-semibold text-green-700 mb-2">Our Mission</h3>
+                                <p className="text-gray-700 text-lg leading-relaxed">
+                                    {aboutContent.section.metadata.mission}
+                                </p>
+                            </div>
+                        )}
+
+                        {/* Vision Statement */}
+                        {aboutContent.section?.metadata?.vision && (
+                            <div className="mb-6">
+                                <h3 className="text-xl font-semibold text-green-700 mb-2">Our Vision</h3>
+                                <p className="text-gray-700 text-lg leading-relaxed">
+                                    {aboutContent.section.metadata.vision}
+                                </p>
+                            </div>
+                        )}
+
+                        {/* Fallback description if no mission/vision */}
+                        {(!aboutContent.section?.metadata?.mission && !aboutContent.section?.metadata?.vision) && (
+                            <p className="text-gray-700 text-lg leading-relaxed mb-6">
+                                Founded in 1888, the Lagos Chamber of Commerce and Industry is the Premier Chamber of Commerce in Nigeria. Incorporated in 1950 as a non-profit organization, LCCI promotes the interests of the business community in Lagos and across Nigeria.
+                            </p>
+                        )}
                         <div className="grid grid-cols-2 gap-4">
                             <div className="text-center p-4 bg-green-50 rounded-lg">
                                 <div className="text-2xl font-bold text-green-700">
@@ -98,38 +121,89 @@ const About: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-6 mb-8">
-                    <div className="flex-1 flex items-center gap-4">
-                        <FaGlobeAfrica className="text-green-700 text-3xl" />
-                        <div>
-                            <h2 className="text-xl font-bold text-green-800 mb-1">Largest International Trade Fair in Nigeria</h2>
-                            <p className="text-gray-700">Held annually since 1981, attracting exhibitors and visitors from all over the world.</p>
+                {/* Feature Boxes - CMS Managed */}
+                {aboutContent.items && aboutContent.items.length > 0 && (
+                    <div className="space-y-6 mb-8">
+                        <div className="flex flex-col md:flex-row gap-6">
+                            {aboutContent.items.slice(0, 2).map((item, index) => {
+                                const IconComponent = index === 0 ? FaGlobeAfrica : FaHandshake;
+                                const colorClass = index === 0 ? "text-green-700" : "text-red-500";
+                                const titleColorClass = index === 0 ? "text-green-800" : "text-red-600";
+                                
+                                return (
+                                    <div key={item.id} className="flex-1 flex items-center gap-4">
+                                        <IconComponent className={`${colorClass} text-3xl`} />
+                                        <div>
+                                            <h2 className={`text-xl font-bold ${titleColorClass} mb-1`}>
+                                                {item.title}
+                                            </h2>
+                                            <p className="text-gray-700">{item.content}</p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
+                        {aboutContent.items.length > 2 && (
+                            <div className="flex flex-col md:flex-row gap-6">
+                                {aboutContent.items.slice(2, 4).map((item, index) => {
+                                    const IconComponent = index === 0 ? FaUsers : FaBullhorn;
+                                    const colorClass = index === 0 ? "text-green-700" : "text-red-500";
+                                    const titleColorClass = index === 0 ? "text-green-800" : "text-red-600";
+                                    
+                                    return (
+                                        <div key={item.id} className="flex-1 flex items-center gap-4">
+                                            <IconComponent className={`${colorClass} text-3xl`} />
+                                            <div>
+                                                <h2 className={`text-xl font-bold ${titleColorClass} mb-1`}>
+                                                    {item.title}
+                                                </h2>
+                                                <p className="text-gray-700">{item.content}</p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
                     </div>
-                    <div className="flex-1 flex items-center gap-4">
-                        <FaHandshake className="text-red-500 text-3xl" />
-                        <div>
-                            <h2 className="text-xl font-bold text-red-600 mb-1">Business & Networking</h2>
-                            <p className="text-gray-700">A hub for top organizations, policy makers, and professionals to connect and collaborate.</p>
+                )}
+
+                {/* Fallback to hardcoded content if no CMS items */}
+                {(!aboutContent.items || aboutContent.items.length === 0) && (
+                    <>
+                        <div className="flex flex-col md:flex-row gap-6 mb-8">
+                            <div className="flex-1 flex items-center gap-4">
+                                <FaGlobeAfrica className="text-green-700 text-3xl" />
+                                <div>
+                                    <h2 className="text-xl font-bold text-green-800 mb-1">Largest International Trade Fair in Nigeria</h2>
+                                    <p className="text-gray-700">Held annually since 1981, attracting exhibitors and visitors from all over the world.</p>
+                                </div>
+                            </div>
+                            <div className="flex-1 flex items-center gap-4">
+                                <FaHandshake className="text-red-500 text-3xl" />
+                                <div>
+                                    <h2 className="text-xl font-bold text-red-600 mb-1">Business & Networking</h2>
+                                    <p className="text-gray-700">A hub for top organizations, policy makers, and professionals to connect and collaborate.</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="flex flex-col md:flex-row gap-6 mb-8">
-                    <div className="flex-1 flex items-center gap-4">
-                        <FaUsers className="text-green-700 text-3xl" />
-                        <div>
-                            <h2 className="text-xl font-bold text-green-800 mb-1">Diverse Participation</h2>
-                            <p className="text-gray-700">Open to local and foreign exhibitors, with growing interest and attendance every year.</p>
+                        <div className="flex flex-col md:flex-row gap-6 mb-8">
+                            <div className="flex-1 flex items-center gap-4">
+                                <FaUsers className="text-green-700 text-3xl" />
+                                <div>
+                                    <h2 className="text-xl font-bold text-green-800 mb-1">Diverse Participation</h2>
+                                    <p className="text-gray-700">Open to local and foreign exhibitors, with growing interest and attendance every year.</p>
+                                </div>
+                            </div>
+                            <div className="flex-1 flex items-center gap-4">
+                                <FaBullhorn className="text-red-500 text-3xl" />
+                                <div>
+                                    <h2 className="text-xl font-bold text-red-600 mb-1">Wide Publicity</h2>
+                                    <p className="text-gray-700">Extensive media coverage and unique opportunities for product and service promotion.</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex-1 flex items-center gap-4">
-                        <FaBullhorn className="text-red-500 text-3xl" />
-                        <div>
-                            <h2 className="text-xl font-bold text-red-600 mb-1">Wide Publicity</h2>
-                            <p className="text-gray-700">Extensive media coverage and unique opportunities for product and service promotion.</p>
-                        </div>
-                    </div>
-                </div>
+                    </>
+                )}
                 <div className="border-t border-gray-200 pt-6">
                     <h3 className="text-2xl font-semibold text-green-800 mb-4">About the Fair</h3>
                     <div className="text-gray-700 whitespace-pre-line">
