@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NavigationHeader from '@/components/navigation/NavigationHeader';
 import { useUser } from '@/context/UserContext';
-import { FaGlobeAfrica, FaHandshake, FaUsers, FaBullhorn } from 'react-icons/fa';
+import { FaGlobeAfrica, FaHandshake, FaUsers, FaBullhorn, FaRocket, FaEye } from 'react-icons/fa';
 import FooterSection from '@/components/layouts/FooterSection';
 import { ContentRepository } from '@/repository/ContentRepository';
 import LoadingOverlay from '@/components/common/LoadingOverlay';
@@ -77,7 +77,7 @@ const About: React.FC = () => {
                     </div>
                     <div className="order-1 lg:order-2">
                         <h2 className="text-3xl font-bold text-green-800 mb-6">Lagos Chamber of Commerce and Industry</h2>
-                        
+
                         {/* Mission Statement */}
                         {aboutContent.section?.metadata?.mission && (
                             <div className="mb-6">
@@ -129,7 +129,7 @@ const About: React.FC = () => {
                                 const IconComponent = index === 0 ? FaGlobeAfrica : FaHandshake;
                                 const colorClass = index === 0 ? "text-green-700" : "text-red-500";
                                 const titleColorClass = index === 0 ? "text-green-800" : "text-red-600";
-                                
+
                                 return (
                                     <div key={item.id} className="flex-1 flex items-center gap-4">
                                         <IconComponent className={`${colorClass} text-3xl`} />
@@ -149,7 +149,7 @@ const About: React.FC = () => {
                                     const IconComponent = index === 0 ? FaUsers : FaBullhorn;
                                     const colorClass = index === 0 ? "text-green-700" : "text-red-500";
                                     const titleColorClass = index === 0 ? "text-green-800" : "text-red-600";
-                                    
+
                                     return (
                                         <div key={item.id} className="flex-1 flex items-center gap-4">
                                             <IconComponent className={`${colorClass} text-3xl`} />
@@ -228,4 +228,4 @@ The Fair brings into focus the full potentials and business opportunities existi
     );
 };
 
-export default About; 
+export default About;

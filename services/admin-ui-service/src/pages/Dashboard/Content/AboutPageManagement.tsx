@@ -9,9 +9,6 @@ import LoadingOverlay from "../../../components/common/LoadingOverlay";
 import SuccessDialog from "../../../components/common/SuccessDialog";
 import ErrorDialog from "../../../components/common/ErrorDialog";
 import {
-  PlusIcon,
-  PencilIcon,
-  TrashIcon,
   InformationCircleIcon,
   CalendarIcon,
   BuildingOfficeIcon,
@@ -102,8 +99,7 @@ const AboutPageManagement: React.FC = () => {
             About Page Content Management
           </h1>
           <p className="text-gray-600">
-            Manage about page content including mission, vision, and
-            organizational details
+            Manage about page content including mission, vision, organizational details, and about the fair content
           </p>
         </div>
 
@@ -333,93 +329,7 @@ The Fair brings into focus the full potentials and business opportunities existi
               </form>
             </div>
 
-            {/* Feature Items Management */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  About Page Features
-                </h2>
-                <button
-                  onClick={() => {
-                    const newItem = {
-                      title: "New Feature",
-                      content: "Feature description",
-                      metadata: {},
-                    };
-                    // Add new item functionality here
-                  }}
-                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
-                >
-                  <PlusIcon className="w-4 h-4" />
-                  Add Feature
-                </button>
-              </div>
-
-              <div className="space-y-4">
-                {aboutPageData.items.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className="border border-gray-200 rounded-lg p-4 bg-gray-50"
-                  >
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-medium text-gray-900">
-                        Feature {index + 1}
-                      </h3>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => {
-                            // Edit functionality
-                          }}
-                          className="text-blue-600 hover:text-blue-700 p-1"
-                        >
-                          <PencilIcon className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => {
-                            // Delete functionality
-                          }}
-                          className="text-red-600 hover:text-red-700 p-1"
-                        >
-                          <TrashIcon className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Feature Title
-                        </label>
-                        <input
-                          type="text"
-                          defaultValue={item.title}
-                          className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                          placeholder="Feature title"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Feature Description
-                        </label>
-                        <textarea
-                          defaultValue={item.content}
-                          rows={2}
-                          className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-                          placeholder="Feature description"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-
-                {aboutPageData.items.length === 0 && (
-                  <div className="text-center py-8 text-gray-500">
-                    <InformationCircleIcon className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                    <p>No features added yet. Click "Add Feature" to create your first feature.</p>
-                  </div>
-                )}
-              </div>
-            </div>
+            
           </div>
         )}
       </div>
