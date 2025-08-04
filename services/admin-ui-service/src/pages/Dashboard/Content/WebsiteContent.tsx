@@ -26,21 +26,29 @@ const SECTION_CONFIGS = {
     name: "Hero Section",
     sectionFields: ["event_date", "location", "button_text"],
     itemFields: ["highlight", "subtitle"],
+    hideItems: false,
+    description: "",
   },
   about: {
     name: "About Section",
     sectionFields: ["image_base64", "button_text"],
     itemFields: [], // Partners don't need extra metadata
+    hideItems: false,
+    description: "",
   },
   features: {
     name: "Features Section",
     sectionFields: [],
     itemFields: [], // Features are simple title/description
+    hideItems: false,
+    description: "",
   },
   events: {
     name: "Events Section",
     sectionFields: ["subtitle"],
     itemFields: ["date", "time", "location"],
+    hideItems: false,
+    description: "",
   },
   footer: {
     name: "Footer Section",
