@@ -332,8 +332,6 @@ const ContactPageManagement: React.FC = () => {
                 </div>
               </form>
             </div>
-
-            
           </div>
         )}
       </div>

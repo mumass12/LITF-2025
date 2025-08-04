@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { ContentRepository } from "../../../repository/ContentRepository";
 import {
   ContentSection,
-  ContentItem,
 } from "../../../repository/ContentRepository";
 import LoadingOverlay from "../../../components/common/LoadingOverlay";
 import SuccessDialog from "../../../components/common/SuccessDialog";
@@ -11,8 +10,7 @@ import ErrorDialog from "../../../components/common/ErrorDialog";
 const FooterManagement: React.FC = () => {
   const [footerData, setFooterData] = useState<{
     section: ContentSection | null;
-    items: ContentItem[];
-  }>({ section: null, items: [] });
+  }>({ section: null });
   const [loading, setLoading] = useState(true);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [showErrorDialog, setShowErrorDialog] = useState(false);

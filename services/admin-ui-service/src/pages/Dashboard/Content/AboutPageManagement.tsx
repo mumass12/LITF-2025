@@ -237,26 +237,32 @@ const AboutPageManagement: React.FC = () => {
                 </div>
 
                 {/* About the Fair Content - Rich Text Editor */}
-                <div className="border border-gray-200 rounded-lg p-6">
+                <div className="border border-gray-200 rounded-lg p-6 bg-gray-50">
                   <div className="flex items-center gap-2 mb-4">
                     <InformationCircleIcon className="w-5 h-5 text-green-600" />
                     <h3 className="text-lg font-medium text-gray-900">
                       About the Fair Content
                     </h3>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">
-                    This content will be displayed in the "About the Fair" section on the About page.
-                  </p>
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                    <p className="text-sm text-blue-700">
+                      <strong>WYSIWYG Editor:</strong> This content will be displayed exactly as you format it in the "About the Fair" section on the About page. Use line breaks and formatting as needed.
+                    </p>
+                  </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Content
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Content Editor
                     </label>
-                    <textarea
-                      name="about_fair_content"
-                      defaultValue={
-                        aboutPageData.section.metadata?.about_fair_content || 
-                        `The Lagos International Trade Fair is the largest International Trade Fair in Nigeria. The spectacular 10-day event usually begins on the first Friday in November of every year, since 1981. The Lagos Chamber of Commerce and Industry (LCCI) took over the organisation of the fair in 1986 and has been staging the fair annually to date.
+                    <div className="bg-white border border-gray-300 rounded-lg">
+                      <div className="border-b border-gray-200 px-3 py-2 bg-gray-50 rounded-t-lg">
+                        <p className="text-xs text-gray-600 font-medium">Formatting Tips: Use • for bullet points, leave empty lines for paragraphs</p>
+                      </div>
+                      <textarea
+                        name="about_fair_content"
+                        defaultValue={
+                          aboutPageData.section.metadata?.about_fair_content || 
+                          `The Lagos International Trade Fair is the largest International Trade Fair in Nigeria. The spectacular 10-day event usually begins on the first Friday in November of every year, since 1981. The Lagos Chamber of Commerce and Industry (LCCI) took over the organisation of the fair in 1986 and has been staging the fair annually to date.
 
 Since then, the Lagos International Trade Fair has grown tremendously in popularity to become the leading forum for Trade and Business promotion in Nigeria, and indeed Africa. The Chamber is uniquely aware of the high standards expected of an International Trade Fair, and it is, therefore, constantly striving to live up to this expectation.
 
@@ -268,14 +274,27 @@ Key Features:
 • Assistance from experienced Trade Promotion Board members and LCCI staff
 
 The Fair brings into focus the full potentials and business opportunities existing in Nigeria, with eminent dignitaries and policy makers attending throughout its duration.`
-                      }
-                      rows={15}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono text-sm"
-                      placeholder="Enter detailed content about the fair..."
-                    />
-                    <p className="text-xs text-gray-500 mt-2">
-                      You can use basic formatting like line breaks and bullet points. This content supports markdown-style formatting.
-                    </p>
+                        }
+                        rows={20}
+                        className="w-full border-0 rounded-b-lg px-4 py-3 focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none text-sm leading-relaxed"
+                        placeholder="Enter detailed content about the fair..."
+                        style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
+                      />
+                    </div>
+                    <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-2 text-xs text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span>Line breaks preserved</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                        <span>Bullet points supported</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                        <span>Paragraph spacing included</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
 

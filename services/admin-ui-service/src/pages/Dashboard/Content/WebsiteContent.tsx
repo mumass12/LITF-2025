@@ -51,20 +51,20 @@ const SECTION_CONFIGS = {
       "email",
       "social_links",
     ],
-    itemFields: ["link_type", "link_group"],
-    description: "Managed through dedicated Footer Management page",
+    itemFields: [],
+    description: "Footer section managed through dedicated Footer Management page - No items needed",
   },
   "about-page": {
     name: "About Page",
-    sectionFields: ["mission", "vision", "established", "incorporated"],
-    itemFields: ["section_type", "order"],
-    description: "Managed through dedicated About Page Management page",
+    sectionFields: ["mission", "vision", "established", "incorporated", "about_fair_content"],
+    itemFields: [],
+    description: "About page managed through dedicated About Page Management page - No items needed",
   },
   "contact-page": {
     name: "Contact Page",
     sectionFields: ["main_office", "support_office"],
-    itemFields: ["office_type", "department"],
-    description: "Managed through dedicated Contact Page Management page",
+    itemFields: [],
+    description: "Contact page managed through dedicated Contact Page Management page - No items needed",
   },
 };
 
