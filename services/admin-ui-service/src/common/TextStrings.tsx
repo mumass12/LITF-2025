@@ -7,5 +7,6 @@ export const BOOTH_BASE_URL =
   import.meta.env.VITE_BOOTH_SERVICE_URL || "http://localhost:4006";
 export const CONTENT_BASE_URL =
   import.meta.env.VITE_CONTENT_SERVICE_URL || "http://localhost:4010";
+export const ADMIN_BASE_URL = "http://localhost:3010";
 export const COMMUNICATION_BASE_URL =
   import.meta.env.VITE_COMMUNICATION_SERVICE_URL || "http://localhost:4008";

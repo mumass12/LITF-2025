@@ -365,8 +365,45 @@ export class ContentRepository {
     return response.success ? response.data : { section: null, items: [] };
   }
 
-  static async getAboutPageContent() {
-    const response = await this.request("/public/section/about-page");
-    return response.success ? response.data : { section: null, items: [] };
+  // About Page Content
+  static async getAboutPageContent(): Promise<{
+    section: ContentSection | null;
+    items: ContentItem[];
+  }> {
+    const response = await this.request("/admin/section/about-page");
+    return response.data || { section: null, items: [] };
+  }
+
+  // Media Upload Methods
+  static async uploadImage(uploadData: {
+    file: string;
+    filename: string;
+    contentType: string;
+    folder?: string;
+  }): Promise<{
+    url: string;
+    key: string;
+    filename: string;
+    size: number;
+    contentType: string;
+  }> {
+    const response = await this.request("/media/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: uploadData,
+    });
+    return response.data;
+  }
+
+  static async deleteImage(deleteData: {
+    url?: string;
+    key?: string;
+  }): Promise<{ message: string }> {
+    const response = await this.request("/media/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      data: JSON.stringify(deleteData),
+    });
+    return response.data;
   }
 }

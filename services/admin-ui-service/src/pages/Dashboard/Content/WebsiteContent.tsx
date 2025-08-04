@@ -64,7 +64,7 @@ const SECTION_CONFIGS = {
     description: "Footer section managed through dedicated Footer Management page - No items needed",
     hideItems: true,
   },
-  
+
   "contact-page": {
     name: "Contact Page",
     sectionFields: ["main_office", "support_office"],
@@ -72,6 +72,13 @@ const SECTION_CONFIGS = {
     description: "Contact page managed through dedicated Contact Page Management page - No items needed",
     hideItems: true,
   },
+  // "about-page": {
+  //   name: "About Page", 
+  //   sectionFields: ["mission", "vision", "established", "incorporated", "about_fair_content"],
+  //   itemFields: [],
+  //   description: "About page managed through dedicated About Page Management page - No items needed",
+  //   hideItems: true,
+  // },
 };
 
 const WebsiteContent: React.FC = () => {
@@ -249,7 +256,7 @@ const WebsiteContent: React.FC = () => {
 
     const s3Service = S3UploadService.getInstance();
     const validation = s3Service.validateImageFile(file);
-    
+
     if (!validation.isValid) {
       setErrorMessage(validation.error || "Invalid file");
       setShowErrorDialog(true);
@@ -258,7 +265,7 @@ const WebsiteContent: React.FC = () => {
 
     try {
       setIsUploading(true);
-      
+
       // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -273,7 +280,7 @@ const WebsiteContent: React.FC = () => {
 
       // Upload to S3
       const uploadResult = await s3Service.uploadImage(file, 'content-images');
-      
+
       if (uploadResult.success && uploadResult.url) {
         setItemFormData((prev) => ({
           ...prev,
@@ -299,7 +306,7 @@ const WebsiteContent: React.FC = () => {
 
     const s3Service = S3UploadService.getInstance();
     const validation = s3Service.validateImageFile(file);
-    
+
     if (!validation.isValid) {
       setErrorMessage(validation.error || "Invalid file");
       setShowErrorDialog(true);
@@ -308,7 +315,7 @@ const WebsiteContent: React.FC = () => {
 
     try {
       setIsUploading(true);
-      
+
       // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -323,7 +330,7 @@ const WebsiteContent: React.FC = () => {
 
       // Upload to S3
       const uploadResult = await s3Service.uploadImage(file, 'content-images');
-      
+
       if (uploadResult.success && uploadResult.url) {
         setSectionFormData((prev) => ({
           ...prev,
@@ -977,6 +984,7 @@ const WebsiteContent: React.FC = () => {
               </label>
               <select
                 value={itemFormData.metadata[field] || ""}
+                ```python
                 onChange={(e) =>
                   setItemFormData({
                     ...itemFormData,
@@ -1393,7 +1401,7 @@ const WebsiteContent: React.FC = () => {
                   </div>
 
                   {/* Section Items */}
-                  
+
                   {config.description || config.hideItems ? (
                     <div className="p-6">
                       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -1584,7 +1592,6 @@ const WebsiteContent: React.FC = () => {
                     <option value="features">Features Section</option>
                     <option value="events">Events Section</option>
                     <option value="footer">Footer Section</option>
-                    <option value="about-page">About Page</option>
                     <option value="contact-page">Contact Page</option>
                     <option value="custom">Custom Section</option>
                   </select>
@@ -1789,6 +1796,7 @@ const WebsiteContent: React.FC = () => {
 
                 {itemFormData.image_preview && (
                   <img
+                    ```python
                     src={itemFormData.image_preview}
                     alt="Preview"
                     className="w-full h-32 object-cover mt-2 rounded border"
