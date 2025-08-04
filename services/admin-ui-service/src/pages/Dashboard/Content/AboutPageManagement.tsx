@@ -329,7 +329,342 @@ The Fair brings into focus the full potentials and business opportunities existi
               </form>
             </div>
 
-            
+            {/* Feature Boxes Management */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    Feature Boxes Management
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Manage the 4 feature boxes displayed on the About Us page
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                {/* Feature Box 1 - Globe Africa */}
+                <div className="border border-gray-200 rounded-lg p-4 bg-green-50">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <span className="text-green-700 text-sm font-bold">1</span>
+                    </div>
+                    <h3 className="text-lg font-medium text-green-800">
+                      Feature Box 1 (Globe Icon - Green)
+                    </h3>
+                  </div>
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.currentTarget);
+                      try {
+                        setLoading(true);
+                        // Get existing item or create new one
+                        let existingItem = aboutPageData.items.find(item => item.display_order === 1);
+                        
+                        const itemData = {
+                          title: formData.get("feature1_title") as string,
+                          content: formData.get("feature1_content") as string,
+                          display_order: 1,
+                          is_active: true,
+                          section_id: aboutPageData.section?.id
+                        };
+
+                        if (existingItem) {
+                          await ContentRepository.updateContentItem(existingItem.id, itemData);
+                        } else {
+                          await ContentRepository.createContentItem(itemData);
+                        }
+                        
+                        setSuccessMessage("Feature box 1 updated successfully!");
+                        setShowSuccessDialog(true);
+                        await loadAboutPageContent();
+                      } catch (error) {
+                        console.error("Failed to update feature box 1:", error);
+                        setErrorMessage("Failed to update feature box 1");
+                        setShowErrorDialog(true);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    className="space-y-4"
+                  >
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Title
+                      </label>
+                      <input
+                        type="text"
+                        name="feature1_title"
+                        defaultValue={aboutPageData.items.find(item => item.display_order === 1)?.title || "Largest International Trade Fair in Nigeria"}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Description
+                      </label>
+                      <textarea
+                        name="feature1_content"
+                        defaultValue={aboutPageData.items.find(item => item.display_order === 1)?.content || "Held annually since 1981, attracting exhibitors and visitors from all over the world."}
+                        rows={2}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        required
+                      />
+                    </div>
+                    <div className="flex justify-end">
+                      <button
+                        type="submit"
+                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Update Feature 1
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Feature Box 2 - Handshake */}
+                <div className="border border-gray-200 rounded-lg p-4 bg-red-50">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                      <span className="text-red-700 text-sm font-bold">2</span>
+                    </div>
+                    <h3 className="text-lg font-medium text-red-800">
+                      Feature Box 2 (Handshake Icon - Red)
+                    </h3>
+                  </div>
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.currentTarget);
+                      try {
+                        setLoading(true);
+                        let existingItem = aboutPageData.items.find(item => item.display_order === 2);
+                        
+                        const itemData = {
+                          title: formData.get("feature2_title") as string,
+                          content: formData.get("feature2_content") as string,
+                          display_order: 2,
+                          is_active: true,
+                          section_id: aboutPageData.section?.id
+                        };
+
+                        if (existingItem) {
+                          await ContentRepository.updateContentItem(existingItem.id, itemData);
+                        } else {
+                          await ContentRepository.createContentItem(itemData);
+                        }
+                        
+                        setSuccessMessage("Feature box 2 updated successfully!");
+                        setShowSuccessDialog(true);
+                        await loadAboutPageContent();
+                      } catch (error) {
+                        console.error("Failed to update feature box 2:", error);
+                        setErrorMessage("Failed to update feature box 2");
+                        setShowErrorDialog(true);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    className="space-y-4"
+                  >
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Title
+                      </label>
+                      <input
+                        type="text"
+                        name="feature2_title"
+                        defaultValue={aboutPageData.items.find(item => item.display_order === 2)?.title || "Business & Networking"}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Description
+                      </label>
+                      <textarea
+                        name="feature2_content"
+                        defaultValue={aboutPageData.items.find(item => item.display_order === 2)?.content || "A hub for top organizations, policy makers, and professionals to connect and collaborate."}
+                        rows={2}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        required
+                      />
+                    </div>
+                    <div className="flex justify-end">
+                      <button
+                        type="submit"
+                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Update Feature 2
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Feature Box 3 - Users */}
+                <div className="border border-gray-200 rounded-lg p-4 bg-green-50">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                      <span className="text-green-700 text-sm font-bold">3</span>
+                    </div>
+                    <h3 className="text-lg font-medium text-green-800">
+                      Feature Box 3 (Users Icon - Green)
+                    </h3>
+                  </div>
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.currentTarget);
+                      try {
+                        setLoading(true);
+                        let existingItem = aboutPageData.items.find(item => item.display_order === 3);
+                        
+                        const itemData = {
+                          title: formData.get("feature3_title") as string,
+                          content: formData.get("feature3_content") as string,
+                          display_order: 3,
+                          is_active: true,
+                          section_id: aboutPageData.section?.id
+                        };
+
+                        if (existingItem) {
+                          await ContentRepository.updateContentItem(existingItem.id, itemData);
+                        } else {
+                          await ContentRepository.createContentItem(itemData);
+                        }
+                        
+                        setSuccessMessage("Feature box 3 updated successfully!");
+                        setShowSuccessDialog(true);
+                        await loadAboutPageContent();
+                      } catch (error) {
+                        console.error("Failed to update feature box 3:", error);
+                        setErrorMessage("Failed to update feature box 3");
+                        setShowErrorDialog(true);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    className="space-y-4"
+                  >
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Title
+                      </label>
+                      <input
+                        type="text"
+                        name="feature3_title"
+                        defaultValue={aboutPageData.items.find(item => item.display_order === 3)?.title || "Diverse Participation"}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Description
+                      </label>
+                      <textarea
+                        name="feature3_content"
+                        defaultValue={aboutPageData.items.find(item => item.display_order === 3)?.content || "Open to local and foreign exhibitors, with growing interest and attendance every year."}
+                        rows={2}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        required
+                      />
+                    </div>
+                    <div className="flex justify-end">
+                      <button
+                        type="submit"
+                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Update Feature 3
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Feature Box 4 - Bullhorn */}
+                <div className="border border-gray-200 rounded-lg p-4 bg-red-50">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                      <span className="text-red-700 text-sm font-bold">4</span>
+                    </div>
+                    <h3 className="text-lg font-medium text-red-800">
+                      Feature Box 4 (Bullhorn Icon - Red)
+                    </h3>
+                  </div>
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.currentTarget);
+                      try {
+                        setLoading(true);
+                        let existingItem = aboutPageData.items.find(item => item.display_order === 4);
+                        
+                        const itemData = {
+                          title: formData.get("feature4_title") as string,
+                          content: formData.get("feature4_content") as string,
+                          display_order: 4,
+                          is_active: true,
+                          section_id: aboutPageData.section?.id
+                        };
+
+                        if (existingItem) {
+                          await ContentRepository.updateContentItem(existingItem.id, itemData);
+                        } else {
+                          await ContentRepository.createContentItem(itemData);
+                        }
+                        
+                        setSuccessMessage("Feature box 4 updated successfully!");
+                        setShowSuccessDialog(true);
+                        await loadAboutPageContent();
+                      } catch (error) {
+                        console.error("Failed to update feature box 4:", error);
+                        setErrorMessage("Failed to update feature box 4");
+                        setShowErrorDialog(true);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    className="space-y-4"
+                  >
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Title
+                      </label>
+                      <input
+                        type="text"
+                        name="feature4_title"
+                        defaultValue={aboutPageData.items.find(item => item.display_order === 4)?.title || "Wide Publicity"}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Description
+                      </label>
+                      <textarea
+                        name="feature4_content"
+                        defaultValue={aboutPageData.items.find(item => item.display_order === 4)?.content || "Extensive media coverage and unique opportunities for product and service promotion."}
+                        rows={2}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        required
+                      />
+                    </div>
+                    <div className="flex justify-end">
+                      <button
+                        type="submit"
+                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Update Feature 4
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

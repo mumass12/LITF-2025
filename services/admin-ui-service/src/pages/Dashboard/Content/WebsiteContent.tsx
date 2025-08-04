@@ -984,7 +984,6 @@ const WebsiteContent: React.FC = () => {
               </label>
               <select
                 value={itemFormData.metadata[field] || ""}
-                ```python
                 onChange={(e) =>
                   setItemFormData({
                     ...itemFormData,
