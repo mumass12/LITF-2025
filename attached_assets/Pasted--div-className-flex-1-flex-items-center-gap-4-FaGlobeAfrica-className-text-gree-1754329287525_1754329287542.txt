@@ -1,0 +1,51 @@
+   <div className="flex-1 flex items-center gap-4">
+            <FaGlobeAfrica className="text-green-700 text-3xl" />
+            <div>
+              <h2 className="text-xl font-bold text-green-800 mb-1">
+                Largest International Trade Fair in Nigeria
+              </h2>
+              <p className="text-gray-700">
+                Held annually since 1981, attracting exhibitors and visitors
+                from all over the world.
+              </p>
+            </div>
+          </div>
+          <div className="flex-1 flex items-center gap-4">
+            <FaHandshake className="text-red-500 text-3xl" />
+            <div>
+              <h2 className="text-xl font-bold text-red-600 mb-1">
+                Business & Networking
+              </h2>
+              <p className="text-gray-700">
+                A hub for top organizations, policy makers, and professionals to
+                connect and collaborate.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row gap-6 mb-8">
+          <div className="flex-1 flex items-center gap-4">
+            <FaUsers className="text-green-700 text-3xl" />
+            <div>
+              <h2 className="text-xl font-bold text-green-800 mb-1">
+                Diverse Participation
+              </h2>
+              <p className="text-gray-700">
+                Open to local and foreign exhibitors, with growing interest and
+                attendance every year.
+              </p>
+            </div>
+          </div>
+          <div className="flex-1 flex items-center gap-4">
+            <FaBullhorn className="text-red-500 text-3xl" />
+            <div>
+              <h2 className="text-xl font-bold text-red-600 mb-1">
+                Wide Publicity
+              </h2>
+              <p className="text-gray-700">
+                Extensive media coverage and unique opportunities for product
+                and service promotion.
+              </p>
+            </div>
+          </div>
+        </div>
