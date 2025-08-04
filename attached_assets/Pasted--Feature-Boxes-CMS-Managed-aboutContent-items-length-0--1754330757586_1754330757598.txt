@@ -1,0 +1,60 @@
+      {/* Feature Boxes - CMS Managed */}
+          {aboutContent.items.length > 0 && (
+            <div className="space-y-6 mb-8">
+              <div className="flex flex-col md:flex-row gap-6">
+                {aboutContent.items.slice(0, 2).map((item, index) => {
+                  const IconComponent =
+                    index === 0 ? FaGlobeAfrica : FaHandshake;
+                  const colorClass =
+                    index === 0 ? "text-green-700" : "text-red-500";
+                  const titleColorClass =
+                    index === 0 ? "text-green-800" : "text-red-600";
+
+                  return (
+                    <div
+                      key={item.id}
+                      className="flex-1 flex items-center gap-4"
+                    >
+                      <IconComponent className={`${colorClass} text-3xl`} />
+                      <div>
+                        <h2
+                          className={`text-xl font-bold ${titleColorClass} mb-1`}
+                        >
+                          {item.title}
+                        </h2>
+                        <p className="text-gray-700">{item.content}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              {aboutContent.items.length > 2 && (
+                <div className="flex flex-col md:flex-row gap-6">
+                  {aboutContent.items.slice(2, 4).map((item, index) => {
+                    const IconComponent = index === 0 ? FaUsers : FaBullhorn;
+                    const colorClass =
+                      index === 0 ? "text-green-700" : "text-red-500";
+                    const titleColorClass =
+                      index === 0 ? "text-green-800" : "text-red-600";
+
+                    return (
+                      <div
+                        key={item.id}
+                        className="flex-1 flex items-center gap-4"
+                      >
+                        <IconComponent className={`${colorClass} text-3xl`} />
+                        <div>
+                          <h2
+                            className={`text-xl font-bold ${titleColorClass} mb-1`}
+                          >
+                            {item.title}
+                          </h2>
+                          <p className="text-gray-700">{item.content}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
