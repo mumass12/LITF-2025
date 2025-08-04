@@ -53,18 +53,21 @@ const SECTION_CONFIGS = {
     ],
     itemFields: [],
     description: "Footer section managed through dedicated Footer Management page - No items needed",
+    hideItems: true,
   },
   "about-page": {
     name: "About Page",
     sectionFields: ["mission", "vision", "established", "incorporated", "about_fair_content"],
     itemFields: [],
     description: "About page managed through dedicated About Page Management page - No items needed",
+    hideItems: true,
   },
   "contact-page": {
     name: "Contact Page",
     sectionFields: ["main_office", "support_office"],
     itemFields: [],
     description: "Contact page managed through dedicated Contact Page Management page - No items needed",
+    hideItems: true,
   },
 };
 
@@ -1347,7 +1350,15 @@ const WebsiteContent: React.FC = () => {
 
                   {/* Section Items */}
                   
-                  {config.hideItems ? null : (
+                  {config.description || config.hideItems ? (
+                    <div className="p-6">
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <p className="text-blue-800 text-sm">
+                          {config.description}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
                     <div className="p-6">
                       <div className="flex justify-between items-center mb-6">
                         <h3 className="text-lg font-medium text-gray-900">
