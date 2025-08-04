@@ -19,6 +19,7 @@ import LoadingOverlay from "../../../components/common/LoadingOverlay";
 import ConfirmDialog from "../../../components/common/ConfirmDialog";
 import SuccessDialog from "../../../components/common/SuccessDialog";
 import ErrorDialog from "../../../components/common/ErrorDialog";
+import { S3UploadService } from "../../../services/S3UploadService";
 
 // Define section-specific field configurations
 const SECTION_CONFIGS = {
@@ -31,7 +32,7 @@ const SECTION_CONFIGS = {
   },
   about: {
     name: "About Section",
-    sectionFields: ["image_base64", "button_text"],
+    sectionFields: ["image_url", "button_text"],
     itemFields: [], // Partners don't need extra metadata
     hideItems: false,
     description: "",
@@ -63,13 +64,7 @@ const SECTION_CONFIGS = {
     description: "Footer section managed through dedicated Footer Management page - No items needed",
     hideItems: true,
   },
-  "about-page": {
-    name: "About Page",
-    sectionFields: ["mission", "vision", "established", "incorporated", "about_fair_content"],
-    itemFields: [],
-    description: "About page managed through dedicated About Page Management page - No items needed",
-    hideItems: true,
-  },
+  
   "contact-page": {
     name: "Contact Page",
     sectionFields: ["main_office", "support_office"],
@@ -113,8 +108,10 @@ const WebsiteContent: React.FC = () => {
     display_order: 0,
     image_file: null as File | null,
     image_preview: "",
-    image_base64: "",
+    image_url: "",
   });
+
+  const [isUploading, setIsUploading] = useState(false);
 
   const [itemFormData, setItemFormData] = useState<{
     title: string;
@@ -126,7 +123,6 @@ const WebsiteContent: React.FC = () => {
     metadata: any;
     image_file: File | null;
     image_preview: string;
-    image_base64: string;
   }>({
     title: "",
     description: "",
@@ -137,7 +133,6 @@ const WebsiteContent: React.FC = () => {
     display_order: 1,
     image_file: null,
     image_preview: "",
-    image_base64: "",
   });
 
   useEffect(() => {
@@ -206,8 +201,8 @@ const WebsiteContent: React.FC = () => {
       is_active: section.is_active,
       display_order: section.display_order,
       image_file: null,
-      image_preview: section.metadata?.image_base64 || "",
-      image_base64: section.metadata?.image_base64 || "",
+      image_preview: section.metadata?.image_url || "",
+      image_url: section.metadata?.image_url || "",
     });
     setIsModalOpen(true);
   };
@@ -244,73 +239,112 @@ const WebsiteContent: React.FC = () => {
       display_order: getSectionItems(section.id).length,
       image_file: null,
       image_preview: "",
-      image_base64: "",
     });
     setIsItemModalOpen(true);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-    const maxSize = 5 * 1024 * 1024;
-
-    if (!allowedTypes.includes(file.type)) {
-      alert("Invalid file type. Please upload a valid image.");
+    const s3Service = S3UploadService.getInstance();
+    const validation = s3Service.validateImageFile(file);
+    
+    if (!validation.isValid) {
+      setErrorMessage(validation.error || "Invalid file");
+      setShowErrorDialog(true);
       return;
     }
 
-    if (file.size > maxSize) {
-      alert("File size too large. Max 5MB allowed.");
-      return;
-    }
+    try {
+      setIsUploading(true);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const preview = reader.result as string;
+        setItemFormData((prev) => ({
+          ...prev,
+          image_file: file,
+          image_preview: preview,
+        }));
+      };
+      reader.readAsDataURL(file);
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result as string;
-      setItemFormData((prev) => ({
-        ...prev,
-        image_file: file,
-        image_preview: base64,
-        image_base64: base64,
-      }));
-    };
-    reader.readAsDataURL(file);
+      // Upload to S3
+      const uploadResult = await s3Service.uploadImage(file, 'content-images');
+      
+      if (uploadResult.success && uploadResult.url) {
+        setItemFormData((prev) => ({
+          ...prev,
+          image_url: uploadResult.url,
+        }));
+        setSuccessMessage("Image uploaded successfully!");
+        setShowSuccessDialog(true);
+      } else {
+        setErrorMessage(uploadResult.error || "Failed to upload image");
+        setShowErrorDialog(true);
+      }
+    } catch (error) {
+      setErrorMessage("Failed to upload image. Please try again.");
+      setShowErrorDialog(true);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
-  const handleSectionFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSectionFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-    const maxSize = 5 * 1024 * 1024;
-
-    if (!allowedTypes.includes(file.type)) {
-      alert("Invalid file type. Please upload a valid image.");
+    const s3Service = S3UploadService.getInstance();
+    const validation = s3Service.validateImageFile(file);
+    
+    if (!validation.isValid) {
+      setErrorMessage(validation.error || "Invalid file");
+      setShowErrorDialog(true);
       return;
     }
 
-    if (file.size > maxSize) {
-      alert("File size too large. Max 5MB allowed.");
-      return;
-    }
+    try {
+      setIsUploading(true);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const preview = reader.result as string;
+        setSectionFormData((prev) => ({
+          ...prev,
+          image_file: file,
+          image_preview: preview,
+        }));
+      };
+      reader.readAsDataURL(file);
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result as string;
-      setSectionFormData((prev) => ({
-        ...prev,
-        image_file: file,
-        image_preview: base64,
-        image_base64: base64,
-        metadata: {
-          ...prev.metadata,
-          image_base64: base64,
-        },
-      }));
-    };
-    reader.readAsDataURL(file);
+      // Upload to S3
+      const uploadResult = await s3Service.uploadImage(file, 'content-images');
+      
+      if (uploadResult.success && uploadResult.url) {
+        setSectionFormData((prev) => ({
+          ...prev,
+          image_url: uploadResult.url,
+          metadata: {
+            ...prev.metadata,
+            image_url: uploadResult.url,
+          },
+        }));
+        setSuccessMessage("Image uploaded successfully!");
+        setShowSuccessDialog(true);
+      } else {
+        setErrorMessage(uploadResult.error || "Failed to upload image");
+        setShowErrorDialog(true);
+      }
+    } catch (error) {
+      setErrorMessage("Failed to upload image. Please try again.");
+      setShowErrorDialog(true);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleEditItem = (item: ContentItem) => {
@@ -326,8 +360,7 @@ const WebsiteContent: React.FC = () => {
       is_active: item.is_active,
       display_order: item.display_order,
       image_file: null,
-      image_preview: item.image_base64 || "",
-      image_base64: item.image_base64 || "",
+      image_preview: item.image_url || "",
     });
     setIsItemModalOpen(true);
   };
@@ -362,8 +395,8 @@ const WebsiteContent: React.FC = () => {
         ...sanitizedData,
         metadata: {
           ...sanitizedData.metadata,
-          ...(sectionFormData.image_base64 && {
-            image_base64: sectionFormData.image_base64,
+          ...(sectionFormData.image_url && {
+            image_url: sectionFormData.image_url,
           }),
         },
       };
@@ -400,7 +433,6 @@ const WebsiteContent: React.FC = () => {
       const itemData = {
         ...sanitizedData,
         section_id: selectedSection?.id || editingItem?.section_id || "",
-        image_base64: itemFormData.image_base64 || "",
       };
 
       if (editingItem) {
@@ -512,7 +544,7 @@ const WebsiteContent: React.FC = () => {
               />
             </div>
           );
-        case "image_base64":
+        case "image_url":
           return (
             <div key={field} className="col-span-full">
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -522,8 +554,12 @@ const WebsiteContent: React.FC = () => {
                 type="file"
                 accept="image/*"
                 onChange={handleSectionFileChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                disabled={isUploading}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50"
               />
+              {isUploading && (
+                <div className="mt-2 text-sm text-blue-600">Uploading image...</div>
+              )}
               {sectionFormData.image_preview && (
                 <div className="mt-3">
                   <img
@@ -1309,7 +1345,7 @@ const WebsiteContent: React.FC = () => {
                               )}
 
                               {/* Display section image if available */}
-                              {section.metadata.image_base64 && (
+                              {section.metadata.image_url && (
                                 <div className="col-span-full">
                                   <div className="flex items-center gap-2 text-sm mb-2">
                                     <PhotoIcon className="w-4 h-4 text-indigo-500" />
@@ -1318,7 +1354,7 @@ const WebsiteContent: React.FC = () => {
                                     </span>
                                   </div>
                                   <img
-                                    src={section.metadata.image_base64}
+                                    src={section.metadata.image_url}
                                     alt={section.title}
                                     className="w-32 h-20 object-cover rounded border"
                                     onError={(e) => {
@@ -1453,10 +1489,10 @@ const WebsiteContent: React.FC = () => {
                                 </p>
                               )}
 
-                              {item.image_base64 && (
+                              {item.image_url && (
                                 <div className="mb-3">
                                   <img
-                                    src={item.image_base64}
+                                    src={item.image_url}
                                     alt={item.title}
                                     className="w-full h-20 object-cover rounded border"
                                     onError={(e) => {
@@ -1744,8 +1780,12 @@ const WebsiteContent: React.FC = () => {
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500"
+                  disabled={isUploading}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 disabled:opacity-50"
                 />
+                {isUploading && (
+                  <div className="mt-2 text-sm text-blue-600">Uploading image...</div>
+                )}
 
                 {itemFormData.image_preview && (
                   <img

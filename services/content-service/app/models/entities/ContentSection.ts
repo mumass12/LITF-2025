@@ -24,7 +24,7 @@ export class ContentSection {
   metadata!: any;
 
   @Column({ type: "text", nullable: true })
-  image_base64?: string;
+  image_url?: string;
 
   @Column({ type: "boolean", default: true })
   is_active!: boolean;

@@ -31,14 +31,12 @@ export interface ContentItem {
   title: string;
   description?: string;
   image_url?: string;
-  image_base64: any;
   link_url?: string;
   metadata?: any;
   is_active: boolean;
   display_order: number;
-  created_at: string;
-  updated_at: string;
-  section?: ContentSection;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface Testimonial {
