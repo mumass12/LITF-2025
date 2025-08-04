@@ -358,50 +358,17 @@ export class ContentRepository {
   }
 
   static async getContactPageContent() {
-    const response = await fetch(`${API_BASE_URL}/content/contact-page`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return result.data;
+    const response = await this.request("/public/section/contact-page");
+    return response.success ? response.data : { section: null, items: [] };
   }
 
   static async getFooterContent() {
-    const response = await fetch(`${API_BASE_URL}/content/footer`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return result.data;
+    const response = await this.request("/public/section/footer");
+    return response.success ? response.data : { section: null, items: [] };
   }
 
   static async getAboutPageContent() {
-    const response = await fetch(`${API_BASE_URL}/content/about-page`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return result.data;
+    const response = await this.request("/public/section/about-page");
+    return response.success ? response.data : { section: null, items: [] };
   }
 }

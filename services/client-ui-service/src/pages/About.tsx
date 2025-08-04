@@ -131,22 +131,21 @@ const About: React.FC = () => {
                 </div>
                 <div className="border-t border-gray-200 pt-6">
                     <h3 className="text-2xl font-semibold text-green-800 mb-4">About the Fair</h3>
-                    <p className="mb-4 text-gray-800 text-lg">
-                        The Lagos International Trade Fair is the largest International Trade Fair in Nigeria. The spectacular 10-day event usually begins on the first Friday in November of every year, since 1981. The Lagos Chamber of Commerce and Industry (LCCI) took over the organisation of the fair in 1986 and has been staging the fair annually to date.
-                    </p>
-                    <p className="mb-4 text-gray-700">
-                        Since then, the Lagos International Trade Fair has grown tremendously in popularity to become the leading forum for Trade and Business promotion in Nigeria, and indeed Africa. The Chamber is uniquely aware of the high standards expected of an International Trade Fair, and it is, therefore, constantly striving to live up to this expectation. Moreover, the Chamber comprises the "crème de la crème" of Nigeria's top business organisations and personalities, who are able, willing and ready to enter business interactions with their counterparts all over the world.
-                    </p>
-                    <ul className="list-disc pl-6 mb-4 text-gray-700">
-                        <li>Accessible location in Lagos, the commercial and industrial heartland of Nigeria.</li>
-                        <li>Supported by Federal and Lagos State Governments, and the private sector.</li>
-                        <li>Opportunities for sector groups and professionals to present new products and ideas.</li>
-                        <li>Hospitality and tourism programs for foreign visitors.</li>
-                        <li>Assistance from experienced Trade Promotion Board members and LCCI staff.</li>
-                    </ul>
-                    <p className="mb-4 text-gray-700">
-                        The Fair brings into focus the full potentials and business opportunities existing in Nigeria, with eminent dignitaries and policy makers attending throughout its duration.
-                    </p>
+                    <div className="text-gray-700 whitespace-pre-line">
+                        {aboutContent.section?.metadata?.about_fair_content || 
+                        `The Lagos International Trade Fair is the largest International Trade Fair in Nigeria. The spectacular 10-day event usually begins on the first Friday in November of every year, since 1981. The Lagos Chamber of Commerce and Industry (LCCI) took over the organisation of the fair in 1986 and has been staging the fair annually to date.
+
+Since then, the Lagos International Trade Fair has grown tremendously in popularity to become the leading forum for Trade and Business promotion in Nigeria, and indeed Africa. The Chamber is uniquely aware of the high standards expected of an International Trade Fair, and it is, therefore, constantly striving to live up to this expectation.
+
+Key Features:
+• Accessible location in Lagos, the commercial and industrial heartland of Nigeria
+• Supported by Federal and Lagos State Governments, and the private sector
+• Opportunities for sector groups and professionals to present new products and ideas
+• Hospitality and tourism programs for foreign visitors
+• Assistance from experienced Trade Promotion Board members and LCCI staff
+
+The Fair brings into focus the full potentials and business opportunities existing in Nigeria, with eminent dignitaries and policy makers attending throughout its duration.`}
+                    </div>
                 </div>
             </section>
             <FooterSection />

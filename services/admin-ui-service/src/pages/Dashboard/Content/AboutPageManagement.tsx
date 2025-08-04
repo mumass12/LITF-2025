@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { ContentRepository } from "../../../repository/ContentRepository";
 import {
@@ -7,7 +8,14 @@ import {
 import LoadingOverlay from "../../../components/common/LoadingOverlay";
 import SuccessDialog from "../../../components/common/SuccessDialog";
 import ErrorDialog from "../../../components/common/ErrorDialog";
-import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  PlusIcon,
+  PencilIcon,
+  TrashIcon,
+  InformationCircleIcon,
+  CalendarIcon,
+  BuildingOfficeIcon,
+} from "@heroicons/react/24/outline";
 
 const AboutPageManagement: React.FC = () => {
   const [aboutPageData, setAboutPageData] = useState<{
@@ -101,6 +109,7 @@ const AboutPageManagement: React.FC = () => {
 
         {aboutPageData.section && (
           <div className="space-y-8">
+            {/* About Page Basic Information */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-6">
                 About Page Information
@@ -118,6 +127,7 @@ const AboutPageManagement: React.FC = () => {
                       vision: formData.get("vision") as string,
                       established: formData.get("established") as string,
                       incorporated: formData.get("incorporated") as string,
+                      about_fair_content: formData.get("about_fair_content") as string,
                     },
                     is_active: aboutPageData.section?.is_active || true,
                     display_order: aboutPageData.section?.display_order || 11,
@@ -126,34 +136,17 @@ const AboutPageManagement: React.FC = () => {
                 }}
                 className="space-y-6"
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Page Title
-                    </label>
-                    <input
-                      type="text"
-                      name="title"
-                      defaultValue={aboutPageData.section.title}
-                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Established Year
-                    </label>
-                    <input
-                      type="text"
-                      name="established"
-                      defaultValue={
-                        aboutPageData.section.metadata?.established || ""
-                      }
-                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="e.g., 1888"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Page Title
+                  </label>
+                  <input
+                    type="text"
+                    name="title"
+                    defaultValue={aboutPageData.section.title}
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    required
+                  />
                 </div>
 
                 <div>
@@ -169,45 +162,121 @@ const AboutPageManagement: React.FC = () => {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Incorporated Year
-                  </label>
-                  <input
-                    type="text"
-                    name="incorporated"
-                    defaultValue={
-                      aboutPageData.section.metadata?.incorporated || ""
-                    }
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="e.g., 1950"
-                  />
+                {/* Organization Details */}
+                <div className="border border-gray-200 rounded-lg p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <BuildingOfficeIcon className="w-5 h-5 text-blue-600" />
+                    <h3 className="text-lg font-medium text-gray-900">
+                      Organization Details
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <CalendarIcon className="w-4 h-4 inline mr-1" />
+                        Established Year
+                      </label>
+                      <input
+                        type="text"
+                        name="established"
+                        defaultValue={
+                          aboutPageData.section.metadata?.established || ""
+                        }
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="e.g., 1888"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <CalendarIcon className="w-4 h-4 inline mr-1" />
+                        Incorporated Year
+                      </label>
+                      <input
+                        type="text"
+                        name="incorporated"
+                        defaultValue={
+                          aboutPageData.section.metadata?.incorporated || ""
+                        }
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="e.g., 1950"
+                      />
+                    </div>
+
+                    <div className="col-span-full">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Mission Statement
+                      </label>
+                      <textarea
+                        name="mission"
+                        defaultValue={
+                          aboutPageData.section.metadata?.mission || ""
+                        }
+                        rows={2}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="Enter organization mission"
+                      />
+                    </div>
+
+                    <div className="col-span-full">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Vision Statement
+                      </label>
+                      <textarea
+                        name="vision"
+                        defaultValue={
+                          aboutPageData.section.metadata?.vision || ""
+                        }
+                        rows={2}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="Enter organization vision"
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Mission Statement
-                  </label>
-                  <textarea
-                    name="mission"
-                    defaultValue={aboutPageData.section.metadata?.mission || ""}
-                    rows={4}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="Enter the organization's mission statement"
-                  />
-                </div>
+                {/* About the Fair Content - Rich Text Editor */}
+                <div className="border border-gray-200 rounded-lg p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <InformationCircleIcon className="w-5 h-5 text-green-600" />
+                    <h3 className="text-lg font-medium text-gray-900">
+                      About the Fair Content
+                    </h3>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4">
+                    This content will be displayed in the "About the Fair" section on the About page.
+                  </p>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Vision Statement
-                  </label>
-                  <textarea
-                    name="vision"
-                    defaultValue={aboutPageData.section.metadata?.vision || ""}
-                    rows={4}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="Enter the organization's vision statement"
-                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Content
+                    </label>
+                    <textarea
+                      name="about_fair_content"
+                      defaultValue={
+                        aboutPageData.section.metadata?.about_fair_content || 
+                        `The Lagos International Trade Fair is the largest International Trade Fair in Nigeria. The spectacular 10-day event usually begins on the first Friday in November of every year, since 1981. The Lagos Chamber of Commerce and Industry (LCCI) took over the organisation of the fair in 1986 and has been staging the fair annually to date.
+
+Since then, the Lagos International Trade Fair has grown tremendously in popularity to become the leading forum for Trade and Business promotion in Nigeria, and indeed Africa. The Chamber is uniquely aware of the high standards expected of an International Trade Fair, and it is, therefore, constantly striving to live up to this expectation.
+
+Key Features:
+• Accessible location in Lagos, the commercial and industrial heartland of Nigeria
+• Supported by Federal and Lagos State Governments, and the private sector
+• Opportunities for sector groups and professionals to present new products and ideas
+• Hospitality and tourism programs for foreign visitors
+• Assistance from experienced Trade Promotion Board members and LCCI staff
+
+The Fair brings into focus the full potentials and business opportunities existing in Nigeria, with eminent dignitaries and policy makers attending throughout its duration.`
+                      }
+                      rows={15}
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono text-sm"
+                      placeholder="Enter detailed content about the fair..."
+                    />
+                    <p className="text-xs text-gray-500 mt-2">
+                      You can use basic formatting like line breaks and bullet points. This content supports markdown-style formatting.
+                    </p>
+                  </div>
                 </div>
 
                 <div className="flex justify-end pt-6 border-t">
@@ -219,72 +288,6 @@ const AboutPageManagement: React.FC = () => {
                   </button>
                 </div>
               </form>
-            </div>
-
-            {/* About Page Items/Sections */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-medium text-gray-900">
-                  About Page Sections ({aboutPageData.items.length})
-                </h3>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors">
-                  <PlusIcon className="h-4 w-4" />
-                  Add Section
-                </button>
-              </div>
-
-              {aboutPageData.items.length > 0 ? (
-                <div className="space-y-4">
-                  {aboutPageData.items.map((item) => (
-                    <div
-                      key={item.id}
-                      className="border border-gray-200 rounded-lg p-4"
-                    >
-                      <div className="flex justify-between items-start mb-3">
-                        <h4 className="font-medium text-gray-900">
-                          {item.title}
-                        </h4>
-                        <div className="flex items-center gap-2">
-                          <button className="p-1 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded">
-                            <PencilIcon className="h-4 w-4" />
-                          </button>
-                          <button className="p-1 text-red-600 hover:text-red-700 hover:bg-red-50 rounded">
-                            <TrashIcon className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </div>
-
-                      {item.description && (
-                        <p className="text-gray-600 text-sm mb-3">
-                          {item.description}
-                        </p>
-                      )}
-
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-gray-500">
-                          Type: {item.metadata?.section_type || "General"}
-                        </span>
-                        <span
-                          className={`px-2 py-1 rounded-full font-medium ${
-                            item.is_active
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {item.is_active ? "Active" : "Inactive"}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 bg-gray-50 rounded-lg">
-                  <p className="text-gray-500 mb-4">No sections added yet</p>
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
-                    Add your first section
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         )}
