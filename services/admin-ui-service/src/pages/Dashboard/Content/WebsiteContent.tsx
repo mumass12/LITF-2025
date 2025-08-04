@@ -1346,140 +1346,143 @@ const WebsiteContent: React.FC = () => {
                   </div>
 
                   {/* Section Items */}
-                  <div className="p-6">
-                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-lg font-medium text-gray-900">
-                        Content Items ({sectionItems.length})
-                      </h3>
-                      <button
-                        onClick={() => handleCreateItem(section)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors"
-                      >
-                        <PlusIcon className="h-4 w-4" />
-                        Add Item
-                      </button>
-                    </div>
+                  
+                  {config.hideItems ? null : (
+                    <div className="p-6">
+                      <div className="flex justify-between items-center mb-6">
+                        <h3 className="text-lg font-medium text-gray-900">
+                          Content Items ({sectionItems.length})
+                        </h3>
+                        <button
+                          onClick={() => handleCreateItem(section)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors"
+                        >
+                          <PlusIcon className="h-4 w-4" />
+                          Add Item
+                        </button>
+                      </div>
 
-                    {sectionItems.length > 0 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {sectionItems.map((item) => (
-                          <div
-                            key={item.id}
-                            className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
-                          >
-                            <div className="flex justify-between items-start mb-3">
-                              <h4 className="font-medium text-gray-900 text-sm line-clamp-1">
-                                {item.title}
-                              </h4>
-                              <div className="flex items-center gap-1">
-                                <button
-                                  onClick={() => handleEditItem(item)}
-                                  className="p-1 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded"
-                                  title="Edit Item"
-                                >
-                                  <PencilIcon className="h-4 w-4" />
-                                </button>
-                                <button
-                                  onClick={() => handleDeleteItem(item)}
-                                  className="p-1 text-red-600 hover:text-red-700 hover:bg-red-50 rounded"
-                                  title="Delete Item"
-                                >
-                                  <TrashIcon className="h-4 w-4" />
-                                </button>
+                      {sectionItems.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {sectionItems.map((item) => (
+                            <div
+                              key={item.id}
+                              className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                            >
+                              <div className="flex justify-between items-start mb-3">
+                                <h4 className="font-medium text-gray-900 text-sm line-clamp-1">
+                                  {item.title}
+                                </h4>
+                                <div className="flex items-center gap-1">
+                                  <button
+                                    onClick={() => handleEditItem(item)}
+                                    className="p-1 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded"
+                                    title="Edit Item"
+                                  >
+                                    <PencilIcon className="h-4 w-4" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteItem(item)}
+                                    className="p-1 text-red-600 hover:text-red-700 hover:bg-red-50 rounded"
+                                    title="Delete Item"
+                                  >
+                                    <TrashIcon className="h-4 w-4" />
+                                  </button>
+                                </div>
                               </div>
-                            </div>
 
-                            {/* Display item metadata based on section type */}
-                            {item.metadata &&
-                              Object.keys(item.metadata).length > 0 && (
-                                <div className="text-xs text-gray-500 mb-2 space-y-1">
-                                  {Object.entries(item.metadata).map(
-                                    ([key, value]) => (
-                                      <p
-                                        key={key}
-                                        className="flex items-center gap-1"
-                                      >
-                                        {key === "location" && (
-                                          <MapPinIcon className="w-4 h-4 text-blue-500" />
-                                        )}
-                                        {key === "date" && (
-                                          <CalendarDaysIcon className="w-4 h-4 text-green-500" />
-                                        )}
-                                        {key === "time" && (
-                                          <ClockIcon className="w-4 h-4 text-orange-500" />
-                                        )}
-                                        {key === "highlight" && (
-                                          <TagIcon className="w-4 h-4 text-purple-500" />
-                                        )}
-                                        {key === "subtitle" && (
-                                          <TagIcon className="w-4 h-4 text-indigo-500" />
-                                        )}
-                                        <span className="capitalize">
-                                          {key.replace("_", " ")}:
-                                        </span>
-                                        <span className="font-medium">
-                                          {String(value)}
-                                        </span>
-                                      </p>
-                                    )
-                                  )}
+                              {/* Display item metadata based on section type */}
+                              {item.metadata &&
+                                Object.keys(item.metadata).length > 0 && (
+                                  <div className="text-xs text-gray-500 mb-2 space-y-1">
+                                    {Object.entries(item.metadata).map(
+                                      ([key, value]) => (
+                                        <p
+                                          key={key}
+                                          className="flex items-center gap-1"
+                                        >
+                                          {key === "location" && (
+                                            <MapPinIcon className="w-4 h-4 text-blue-500" />
+                                          )}
+                                          {key === "date" && (
+                                            <CalendarDaysIcon className="w-4 h-4 text-green-500" />
+                                          )}
+                                          {key === "time" && (
+                                            <ClockIcon className="w-4 h-4 text-orange-500" />
+                                          )}
+                                          {key === "highlight" && (
+                                            <TagIcon className="w-4 h-4 text-purple-500" />
+                                          )}
+                                          {key === "subtitle" && (
+                                            <TagIcon className="w-4 h-4 text-indigo-500" />
+                                          )}
+                                          <span className="capitalize">
+                                            {key.replace("_", " ")}:
+                                          </span>
+                                          <span className="font-medium">
+                                            {String(value)}
+                                          </span>
+                                        </p>
+                                      )
+                                    )}
+                                  </div>
+                                )}
+
+                              {item.description && (
+                                <p className="text-gray-600 text-xs mb-3 line-clamp-2">
+                                  {item.description}
+                                </p>
+                              )}
+
+                              {item.image_base64 && (
+                                <div className="mb-3">
+                                  <img
+                                    src={item.image_base64}
+                                    alt={item.title}
+                                    className="w-full h-20 object-cover rounded border"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.style.display = "none";
+                                    }}
+                                  />
                                 </div>
                               )}
 
-                            {item.description && (
-                              <p className="text-gray-600 text-xs mb-3 line-clamp-2">
-                                {item.description}
-                              </p>
-                            )}
-
-                            {item.image_base64 && (
-                              <div className="mb-3">
-                                <img
-                                  src={item.image_base64}
-                                  alt={item.title}
-                                  className="w-full h-20 object-cover rounded border"
-                                  onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.style.display = "none";
-                                  }}
-                                />
+                              <div className="flex justify-between items-center text-xs">
+                                <span className="text-gray-500">
+                                  Order: {item.display_order}
+                                </span>
+                                <span
+                                  className={`px-2 py-1 rounded-full font-medium ${
+                                    item.is_active
+                                      ? "bg-green-100 text-green-800"
+                                      : "bg-red-100 text-red-800"
+                                  }`}
+                                >
+                                  {item.is_active ? "Active" : "Inactive"}
+                                </span>
                               </div>
-                            )}
-
-                            <div className="flex justify-between items-center text-xs">
-                              <span className="text-gray-500">
-                                Order: {item.display_order}
-                              </span>
-                              <span
-                                className={`px-2 py-1 rounded-full font-medium ${
-                                  item.is_active
-                                    ? "bg-green-100 text-green-800"
-                                    : "bg-red-100 text-red-800"
-                                }`}
-                              >
-                                {item.is_active ? "Active" : "Inactive"}
-                              </span>
                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-8 bg-gray-50 rounded-lg">
-                        <div className="mx-auto w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-4">
-                          <PhotoIcon className="w-8 h-8 text-gray-400" />
+                          ))}
                         </div>
-                        <p className="text-gray-500 mb-4">
-                          No items in this section
-                        </p>
-                        <button
-                          onClick={() => handleCreateItem(section)}
-                          className="text-blue-600 hover:text-blue-700 font-medium"
-                        >
-                          Add your first item
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                      ) : (
+                        <div className="text-center py-8 bg-gray-50 rounded-lg">
+                          <div className="mx-auto w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-4">
+                            <PhotoIcon className="w-8 h-8 text-gray-400" />
+                          </div>
+                          <p className="text-gray-500 mb-4">
+                            No items in this section
+                          </p>
+                          <button
+                            onClick={() => handleCreateItem(section)}
+                            className="text-blue-600 hover:text-blue-700 font-medium"
+                          >
+                            Add your first item
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               );
             })
@@ -1779,7 +1782,7 @@ const WebsiteContent: React.FC = () => {
                 />
                 <label
                   htmlFor="item_active"
-                  className="ml-2 block text-sm text-gray-700"
+className="ml-2 block text-sm text-gray-700"
                 >
                   Active
                 </label>
