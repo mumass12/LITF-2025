@@ -16,6 +16,7 @@ interface AboutContent {
             vision?: string;
             established?: string;
             incorporated?: string;
+            about_fair_content?: string;
         };
     } | null;
     items: any[];
